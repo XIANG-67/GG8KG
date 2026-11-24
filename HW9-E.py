@@ -1,19 +1,25 @@
-n_str = input().strip()
-original_n = n_str
-current_str = n_str
-pass_count = 1
+import math
 
-while True:
-    # 將字串中的每個字元轉為整數後相加
-    digit_sum = sum(int(ch) for ch in current_str)
-    print(f"Pass {pass_count} : {digit_sum}")
-    
-    # 若計算結果為個位數 (<= 9)，代表已找到 Digital Root
-    if digit_sum <= 9:
-        break
-    
-    # 更新目前字串與計數器，繼續下一輪計算
-    current_str = str(digit_sum)
-    pass_count += 1
+# 判斷數字 num 是否為質數 (排除 < 2 的數，並檢查至 sqrt(num))
+def is_prime(num):
+    if num < 2:
+        return False
+    for i in range(2, math.isqrt(num) + 1):
+        if num % i == 0:
+            return False
+    return True
 
-print(f"Digital Root of {original_n} : {digit_sum}")
+# 讀取輸入兩個正整數 A 與 B
+a, b = map(int, input().split())
+
+# 自動調整搜尋區間的最小值與最大值
+low, high = min(a, b), max(a, b)
+
+# 搜尋區間內的所有質數
+primes = [str(x) for x in range(low, high + 1) if is_prime(x)]
+
+# 如果有質數則由小到大以空格隔開印出，否則印出空白行
+if primes:
+    print(" ".join(primes) + " ")
+else:
+    print()
